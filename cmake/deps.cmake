@@ -22,3 +22,21 @@ FetchContent_Declare(
   GIT_TAG v11.3.3
 )
 FetchContent_MakeAvailable(ixwebsocket)
+
+# Workaround/warnings hygiene for ixwebsocket on some toolchains.
+if (TARGET ixwebsocket)
+  if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+    target_compile_options(ixwebsocket PRIVATE
+      -include cstdint
+      -Wno-unused-parameter
+      -Wno-unused-private-field
+      -Wno-unused-const-variable
+    )
+  elseif (MSVC)
+    target_compile_options(ixwebsocket PRIVATE
+      /FIcstdint
+      /wd4100  # unreferenced formal parameter
+      /wd4189  # local variable initialized but not referenced
+    )
+  endif()
+endif()
