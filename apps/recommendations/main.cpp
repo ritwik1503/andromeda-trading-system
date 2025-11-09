@@ -47,12 +47,12 @@ int main() {
         const auto& r = items[i];
         const bool buy = is_buy(r);
         std::cout << "  - period=" << r.period
-                  << " decision=" << (buy ? "BUY" : "NO-BUY")
-                  << " sb=" << r.strongBuy
-                  << " b=" << r.buy
-                  << " h=" << r.hold
-                  << " s=" << r.sell
-                  << " ss=" << r.strongSell
+                  << "; decision=" << (buy ? "BUY" : "NO-BUY")
+                  << "; strong buy=" << r.strongBuy
+                  << "; buy=" << r.buy
+                  << "; hold=" << r.hold
+                  << "; sell=" << r.sell
+                  << "; strong sell=" << r.strongSell
                   << std::endl;
       }
       std::cout << std::endl;
