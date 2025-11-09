@@ -1,6 +1,6 @@
 add_library(andromeda_ingestion STATIC
-  finnhub_ws.cpp
-  finnhub_http.cpp
+  finnhub/finnhub_ws.cpp
+  finnhub/finnhub_http.cpp
 )
 
 target_include_directories(andromeda_ingestion

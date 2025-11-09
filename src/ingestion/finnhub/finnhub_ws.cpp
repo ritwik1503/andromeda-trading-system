@@ -124,3 +124,4 @@ std::string read_finnhub_api_key() {
 }
 
 }  // namespace ingestion
+

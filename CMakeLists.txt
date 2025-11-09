@@ -5,8 +5,8 @@ project(AndromedaTradingSystem VERSION 0.1.0 LANGUAGES CXX)
 # Generate compile_commands.json for IDEs (VS Code, etc.)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Put all executables under build/ to avoid nested target paths
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+# Put all executables under build/bin to avoid nested target paths
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include(cmake/deps.cmake)
 find_package(CURL REQUIRED)
