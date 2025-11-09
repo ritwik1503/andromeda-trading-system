@@ -3,8 +3,9 @@
 include(FetchContent)
 
 # ixwebsocket options
+# TLS enabled; disable zlib/per-message-deflate to avoid CI issues on Linux
 set(IXWEBSOCKET_USE_TLS ON CACHE BOOL "Enable TLS for ixwebsocket" FORCE)
-set(USE_ZLIB ON CACHE BOOL "Enable zlib for ixwebsocket" FORCE)
+set(USE_ZLIB OFF CACHE BOOL "Enable zlib for ixwebsocket" FORCE) 
 
 # nlohmann/json (header-only)
 FetchContent_Declare(
@@ -21,4 +22,3 @@ FetchContent_Declare(
   GIT_TAG v11.3.3
 )
 FetchContent_MakeAvailable(ixwebsocket)
-
