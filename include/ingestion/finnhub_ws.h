@@ -28,8 +28,4 @@ class FinnhubWsClient {
   Impl* impl_;
 };
 
-// Utility: try to read FINNHUB_API_KEY, first from env var, then from
-// secrets/finnhub.env (KEY=VALUE lines). Returns empty string if not found.
-std::string read_finnhub_api_key();
-
 }  // namespace ingestion
