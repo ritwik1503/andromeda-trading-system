@@ -1,8 +1,8 @@
-#include <ingestion/finnhub_ws.h>
 #include <ingestion/finnhub_http.h>
 #include <config/symbols.h>
 #include <util/time.h>
 #include <util/env.h>
+#include <util/secrets.h>
 
 #include <cstdlib>
 #include <iostream>
@@ -17,7 +17,7 @@ int main() {
   curl_global_init(CURL_GLOBAL_DEFAULT);
 
   // Read API key from env or secrets/finnhub.env
-  const std::string api_key = ingestion::read_finnhub_api_key();
+  const std::string api_key = util::read_api_key("FINNHUB_API_KEY", "secrets/finnhub.env");
   if (api_key.empty()) {
     std::cout << util::Time::now_utc_iso8601() << " [warn] missing_api_key=FINNHUB_API_KEY source=env_or_file skip_http=true" << std::endl;
     curl_global_cleanup();
@@ -25,7 +25,7 @@ int main() {
   }
 
   // Resolve symbols from constant config
-  const auto& symbols = config::kSymbols;
+  const auto& symbols = config::kUSStockSymbols;
   if (symbols.empty()) {
     std::cerr << util::Time::now_utc_iso8601() << " [error] symbols=none reason=no_valid_input" << std::endl;
     curl_global_cleanup();
@@ -36,12 +36,14 @@ int main() {
   try {
     ingestion::FinnhubHttpClient http(api_key);
     for (const auto& sym : symbols) {
+      const auto it = config::kUSStockNames.find(sym);
+      const std::string& name = (it != config::kUSStockNames.end()) ? it->second : sym;
       try {
         const auto quote_json = http.get_quote(sym);
-        std::cout << util::Time::now_utc_iso8601() << " [info] symbol=" << sym
+        std::cout << util::Time::now_utc_iso8601() << " [info] symbol=" << sym << " name=" << name
                   << " quote_json=" << quote_json << std::endl;
       } catch (const std::exception& e) {
-        std::cerr << util::Time::now_utc_iso8601() << " [error] symbol=" << sym
+        std::cerr << util::Time::now_utc_iso8601() << " [error] symbol=" << sym << " name=" << name
                   << " error=http_request_failed detail=\"" << e.what() << "\"" << std::endl;
       }
     }

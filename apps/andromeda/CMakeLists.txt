@@ -2,7 +2,7 @@ add_executable(andromeda
   main.cpp
 )
 
-target_link_libraries(andromeda PRIVATE andromeda_ingestion)
+target_link_libraries(andromeda PRIVATE andromeda_ingestion andromeda_util)
 
 # andromeda_ingestion exposes include/ publicly, so app inherits include path
 
@@ -12,4 +12,3 @@ apply_release_opts(andromeda)
 if (ipo_supported)
   set_property(TARGET andromeda PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 endif()
-

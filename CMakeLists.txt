@@ -29,8 +29,11 @@ function(apply_release_opts target)
 endfunction()
 
 # Subdirectories for libraries and apps
+add_subdirectory(src/util)
 add_subdirectory(src/ingestion)
+add_subdirectory(src/strategy)
 add_subdirectory(apps/andromeda)
+add_subdirectory(apps/recommendations)
 
 # Enable Link Time Optimization (if supported)
 include(CheckIPOSupported)
