@@ -47,6 +47,7 @@ namespace ingestion {
             TradeCallback on_trade_;
             std::vector<std::string> symbols_;
             bool running_{false};
+            std::size_t poll_start_index_{0};
     };
 
 } // namespace ingestion

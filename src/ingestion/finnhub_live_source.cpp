@@ -54,12 +54,18 @@ namespace ingestion {
             if (!sym.empty()) symbols_.push_back(std::move(sym));
         }
 
+        if (symbols_.empty()) {
+            throw std::runtime_error("no symbols returned");
+        }
+
         // Step-2 : Poll quotes untill stop() is called
         while(running_) {
+            const std::size_t total = symbols_.size();
             const std::size_t limit = std::min(symbols_.size(), max_symbols_per_poll_);
 
             for (std::size_t i = 0; i < limit; ++i) {
-                const auto& sym = symbols_[i];
+                const std::size_t idx = (poll_start_index_ + i) % total;
+                const auto& sym = symbols_[idx];
 
                 if (!running_) {
                     break;
@@ -88,6 +94,7 @@ namespace ingestion {
                 }
             }
 
+            poll_start_index_ = (poll_start_index_ + limit) % total;
             std::this_thread::sleep_for(std::chrono::milliseconds(poll_interval_ms_));
         }
     }
